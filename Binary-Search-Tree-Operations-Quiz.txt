@@ -1,0 +1,99 @@
+Binary Search Tree Operations Quiz
+
+import java.util.Scanner; 
+
+class Node {  
+    int data;   
+    Node left, right;   
+    Node(int data) {      
+        this.data = data;  
+        
+        
+    } 
+    
+} 
+
+class BinarySearchTree {   
+    Node insert(Node root, int data) {    
+        if (root == null) return new Node(data);         
+        if (data < root.data) {         
+            root.left = insert(root.left, data);    
+            
+            
+        } else if (data > root.data) {          
+            root.right = insert(root.right, data);     
+            
+            
+        } else {       
+            int newValue = root.data + data;      
+            root = delete(root, data);       
+            root = insert(root, newValue);   
+            
+            
+        }    
+        
+        return root;   
+        
+        
+    }    
+    
+    Node delete(Node root, int data) {    
+        if (root == null) return null;    
+        if (data < root.data) root.left = delete(root.left, data);    
+        else if (data > root.data) root.right = delete(root.right, data);      
+        else {         
+            if (root.left == null) return root.right;       
+            else if (root.right == null) return root.left;        
+            root.data = minValue(root.right);        
+            root.right = delete(root.right, root.data);     
+            
+            
+        }      
+        
+        return root;  
+        
+        
+    }   
+    
+    int minValue(Node node) {     
+        while (node.left != null)     
+        node = node.left;     
+        return node.data;    
+        
+        
+    }     
+    
+    void inorder(Node root) {   
+        if (root == null) return;      
+        inorder(root.left);       
+        if (!first) System.out.print(" -> ");   
+        System.out.print(root.data);    
+        first = false;       
+        inorder(root.right);   
+        
+        
+    }     
+    
+    boolean first = true; }  
+    public class Main {    
+        public static void main(String[] args) {      
+            Scanner sc = new Scanner(System.in);     
+            BinarySearchTree bst = new BinarySearchTree();    
+            Node root = null;       
+            System.out.print("Enter number of elements: ");     
+            int n = sc.nextInt();      
+            for (int i = 1; i <= n; i++) {        
+                System.out.print("Enter element " + i + ": ");      
+                int data = sc.nextInt();         
+                root = bst.insert(root, data);      
+                
+                
+            }        
+            
+            bst.inorder(root);  
+            
+            
+        } 
+        
+        
+    }
