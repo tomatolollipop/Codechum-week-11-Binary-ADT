@@ -1,0 +1,143 @@
+Binary Tree Traversal Practice 2
+import java.util.*;  
+
+class Node {   
+    int data;    
+    Node left, right;   
+    Node(int data) {       
+        this.data = data;  
+        left = right = null;   
+        
+        
+    } 
+    
+    
+} 
+
+class BinarySearchTree {  
+    Node insert(Node root, int data) {     
+        if (root == null)         
+        return new Node(data);      
+        if (data < root.data)          
+        root.left = insert(root.left, data);  
+        else       
+        root.right = insert(root.right, data);      
+        return root;    
+        
+        
+    }    
+    
+    Node delete(Node root, int data) {     
+        if (root == null)    
+        return root;      
+        if (data < root.data)        
+        root.left = delete(root.left, data);      
+        else if (data > root.data)           
+        root.right = delete(root.right, data);     
+        else {           
+            
+            if (root.left == null)           
+            return root.right;          
+            else if (root.right == null)      
+            return root.left;         
+            
+            root.data = minValue(root.right);       
+            root.right = delete(root.right, root.data);  
+            
+            
+        }      
+        
+        return root;   
+        
+        
+    }   
+    
+    int minValue(Node root) {      
+        int minv = root.data;   
+        while (root.left != null) {     
+            minv = root.left.data;        
+            root = root.left;       
+            
+            
+        }       
+        
+        return minv;  
+        
+        
+    }    
+    
+    void postOrder(Node root, List<Integer> list) {     
+        if (root != null) {           
+            postOrder(root.left, list);     
+            postOrder(root.right, list);    
+            list.add(root.data);     
+            
+            
+        }    
+        
+        
+    } 
+    
+    
+}  
+
+public class Main {    
+    public static void main(String[] args) {   
+        Scanner sc = new Scanner(System.in);   
+        BinarySearchTree bst = new BinarySearchTree();   
+        Node root = null;         
+        int count = 1;       
+        while (true) {          
+            System.out.print("Enter operation " + count + ": ");      
+            String input = sc.nextLine().trim();        
+            count++;         
+            if (input.equals("0"))        
+            break;        
+            else if (input.startsWith("+")) {      
+                try {                  
+                    int val = Integer.parseInt(input.replace("+", "").trim());   
+                    root = bst.insert(root, val);          
+                    
+                    
+                } catch (Exception e) {         
+                    continue;             
+                    
+                    
+                }         
+                
+                
+            } else if (input.startsWith("-")) {       
+                try {              
+                    int val = Integer.parseInt(input.replace("-", "").trim());             
+                    root = bst.delete(root, val);          
+                    
+                    
+                } catch (Exception e) {             
+                    
+                    continue;          
+                    
+                    
+                }          
+                
+                
+            }       
+            
+            
+        }       
+        
+        List<Integer> result = new ArrayList<>();   
+        bst.postOrder(root, result);      
+        for (int i = 0; i < result.size(); i++) {     
+            System.out.print(result.get(i));         
+            if (i < result.size() - 1)     
+            
+            System.out.print(" -> ");    
+            
+            
+        }   
+        
+        
+    } 
+    
+    
+}
